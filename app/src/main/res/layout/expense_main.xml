@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_bottom_margin"
-    tools:context="com.sjoholm.olof.vuxenpoang.ui.MainActivity">
+    tools:context="com.sjoholm.olof.vuxenpoang.ui.expense.ExpenseActivity">
 
     <LinearLayout
         android:orientation="vertical"

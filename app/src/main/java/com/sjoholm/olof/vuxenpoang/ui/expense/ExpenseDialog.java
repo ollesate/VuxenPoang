@@ -1,4 +1,4 @@
-package com.sjoholm.olof.vuxenpoang.ui;
+package com.sjoholm.olof.vuxenpoang.ui.expense;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

@@ -1,4 +1,4 @@
-package com.sjoholm.olof.vuxenpoang.ui;
+package com.sjoholm.olof.vuxenpoang.ui.expense;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import com.sjoholm.olof.vuxenpoang.model.Expense;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ExpenseAdapter.ClickListener {
+public class ExpenseActivity extends AppCompatActivity implements ExpenseAdapter.ClickListener {
     private List<Expense> expenses;
     private RecyclerView recyclerView;
 

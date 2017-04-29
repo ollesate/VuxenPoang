@@ -1,4 +1,4 @@
-package com.sjoholm.olof.vuxenpoang.ui;
+package com.sjoholm.olof.vuxenpoang.ui.expense;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -6,18 +6,18 @@ import android.support.v4.app.FragmentManager;
 import com.sjoholm.olof.vuxenpoang.R;
 import com.sjoholm.olof.vuxenpoang.model.Expense;
 
-class EditExpenseDialog implements ExpenseDialog.ExpenseDialogListener {
+class CreateExpenseDialog implements ExpenseDialog.ExpenseDialogListener {
     private final ExpenseDialog expenseDialog;
     private final DialogListener listener;
 
     interface DialogListener {
 
-        void onExpenseEdited(@NonNull String name, int cost);
+        void onExpenseCreated(@NonNull Expense expense);
     }
 
-    EditExpenseDialog(@NonNull Expense expense, @NonNull DialogListener listener) {
+    CreateExpenseDialog(@NonNull DialogListener listener) {
         this.listener = listener;
-        expenseDialog = ExpenseDialog.newInstance(R.string.expense_dialog_edit, expense);
+        expenseDialog = ExpenseDialog.newInstance(R.string.expense_dialog_create, null);
         expenseDialog.setOnAcceptListener(this);
     }
 
@@ -27,6 +27,6 @@ class EditExpenseDialog implements ExpenseDialog.ExpenseDialogListener {
 
     @Override
     public void onAccept(@NonNull Expense item) {
-        listener.onExpenseEdited(item.name, item.cost);
+        listener.onExpenseCreated(item);
     }
 }
