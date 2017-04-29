@@ -1,6 +1,7 @@
 package com.sjoholm.olof.vuxenpoang.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -9,21 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.sjoholm.olof.vuxenpoang.R;
 import com.sjoholm.olof.vuxenpoang.model.Expense;
 import com.sjoholm.olof.vuxenpoang.utils.NumberUtils;
 
-public class EditDialog extends AppCompatDialogFragment implements View.OnClickListener{
-    private static final String ARG_EXPENSE = "EXPENSE";
-    private CreateDialog.Listener listener;
+public class ExpenseDialog extends AppCompatDialogFragment implements View.OnClickListener{
+    private static final String ARG_INITIAL_VALUE = "ARG_INITIAL_VALUE";
+    private static final String ARG_TITLE = "ARG_TITLE";
+    private ExpenseDialogListener listener;
     private EditText editTextName;
     private EditText editTextCost;
 
-    public static EditDialog newInstance(Expense expense) {
+    public interface ExpenseDialogListener {
+
+        void onAccept(@NonNull Expense expense);
+    }
+
+    public static ExpenseDialog newInstance(int title, @Nullable Expense expense) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_EXPENSE, expense);
-        EditDialog fragment = new EditDialog();
+        args.putSerializable(ARG_INITIAL_VALUE, expense);
+        args.putInt(ARG_TITLE, title);
+        ExpenseDialog fragment = new ExpenseDialog();
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,22 +41,24 @@ public class EditDialog extends AppCompatDialogFragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.create_new_expense, container, false);
+        return inflater.inflate(R.layout.expense_dialog, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Expense expense = (Expense) getArguments().getSerializable(ARG_EXPENSE);
-
-        if (expense == null) {
-            throw new IllegalStateException("Need to have args " + ARG_EXPENSE);
-        }
 
         editTextName = (EditText) view.findViewById(R.id.edt_name);
-        editTextName.setText(expense.name);
         editTextCost = (EditText) view.findViewById(R.id.edt_cost);
-        editTextCost.setText(String.valueOf(expense.cost));
+
+        Expense expense = (Expense) getArguments().getSerializable(ARG_INITIAL_VALUE);
+        if (expense != null) {
+            editTextName.setText(expense.name);
+            editTextCost.setText(String.valueOf(expense.cost));
+        }
+
+        int title = getArguments().getInt(ARG_TITLE);
+        ((TextView) view.findViewById(R.id.title)).setText(title);
 
         view.findViewById(R.id.btn_ok).setOnClickListener(this);
         view.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
@@ -56,6 +67,10 @@ public class EditDialog extends AppCompatDialogFragment implements View.OnClickL
                 dismiss();
             }
         });
+    }
+
+    public void setOnAcceptListener(ExpenseDialogListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -85,9 +100,5 @@ public class EditDialog extends AppCompatDialogFragment implements View.OnClickL
         if (window != null) {
             window.setLayout(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
         }
-    }
-
-    public void setOnAcceptListener(CreateDialog.Listener listener) {
-        this.listener = listener;
     }
 }

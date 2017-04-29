@@ -2,14 +2,14 @@ package com.sjoholm.olof.vuxenpoang.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.sjoholm.olof.vuxenpoang.Injection;
 import com.sjoholm.olof.vuxenpoang.R;
-import com.sjoholm.olof.vuxenpoang.database.Database;
-import com.sjoholm.olof.vuxenpoang.database.ItemTable;
 import com.sjoholm.olof.vuxenpoang.model.Expense;
 
 import java.util.List;
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements ExpenseAdapter.Cl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.expense_main);
 
         findViewById(R.id.btn_create).setOnClickListener(new android.view.View.OnClickListener() {
             @Override
@@ -31,9 +31,7 @@ public class MainActivity extends AppCompatActivity implements ExpenseAdapter.Cl
         });
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        Database database = new Database(this);
-        ItemTable itemTable = database.getItemTable();
-        expenses = itemTable.getItems();
+        expenses = Injection.getRepository(this).fetchExpenses();
         ExpenseAdapter expenseAdapter = new ExpenseAdapter(this, expenses);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(expenseAdapter);
@@ -42,34 +40,32 @@ public class MainActivity extends AppCompatActivity implements ExpenseAdapter.Cl
     @Override
     protected void onPause() {
         super.onPause();
-        Database database = new Database(this);
-        ItemTable itemTable = database.getItemTable();
-        itemTable.update(expenses);
+        Injection.getRepository(this).syncExpenses(expenses);
     }
 
     private void showCreateDialog() {
-        CreateDialog dialogFragment = new CreateDialog();
-        dialogFragment.setOnAcceptListener(new CreateDialog.Listener() {
+        CreateExpenseDialog createExpenseDialog = new CreateExpenseDialog(
+                new CreateExpenseDialog.DialogListener() {
             @Override
-            public void onAccept(Expense item) {
-                expenses.add(item);
+            public void onExpenseCreated(@NonNull Expense expense) {
+                expenses.add(expense);
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
         });
-        dialogFragment.show(getSupportFragmentManager(), null);
+        createExpenseDialog.show(getSupportFragmentManager());
     }
 
     private void showEditDialog(final Expense edit) {
-        EditDialog editDialog = EditDialog.newInstance(edit);
-        editDialog.setOnAcceptListener(new CreateDialog.Listener() {
+        EditExpenseDialog editDialog = new EditExpenseDialog(edit,
+                new EditExpenseDialog.DialogListener() {
             @Override
-            public void onAccept(Expense result) {
-                edit.name = result.name;
-                edit.cost = result.cost;
+            public void onExpenseEdited(@NonNull String name, int cost) {
+                edit.name = name;
+                edit.cost = cost;
                 recyclerView.getAdapter().notifyItemChanged(expenses.indexOf(edit));
             }
         });
-        editDialog.show(getSupportFragmentManager(), null);
+        editDialog.show(getSupportFragmentManager());
     }
 
     @Override
@@ -92,8 +88,8 @@ public class MainActivity extends AppCompatActivity implements ExpenseAdapter.Cl
                 dialogInterface.dismiss();
             }
         };
-        builder.setNegativeButton(R.string.delete, onClickListener);
-        builder.setPositiveButton(R.string.edit, onClickListener);
+        builder.setNegativeButton(R.string.dialog_delete, onClickListener);
+        builder.setPositiveButton(R.string.dialog_edit, onClickListener);
         builder.show();
     }
 }

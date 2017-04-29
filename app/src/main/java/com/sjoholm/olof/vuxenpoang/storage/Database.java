@@ -1,19 +1,19 @@
-package com.sjoholm.olof.vuxenpoang.database;
+package com.sjoholm.olof.vuxenpoang.storage;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
-public class Database extends SQLiteOpenHelper {
+class Database extends SQLiteOpenHelper {
     private static final String DATABASE = "database.db";
     private static final int VERSION = 2;
 
-    private ItemTable itemTable;
+    private final ExpensesTable itemTable;
 
-    public Database(Context context) {
+    Database(Context context) {
         super(context, DATABASE, null, VERSION);
-        itemTable = new ItemTable(this);
+        itemTable = new ExpensesTable(this);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     @NonNull
-    public ItemTable getItemTable() {
+    ExpensesTable getItemTable() {
         return itemTable;
     }
 }

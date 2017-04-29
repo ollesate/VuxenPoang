@@ -1,4 +1,4 @@
-package com.sjoholm.olof.vuxenpoang.database;
+package com.sjoholm.olof.vuxenpoang.storage;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -11,20 +11,20 @@ import com.sjoholm.olof.vuxenpoang.model.Expense;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemTable {
+class ExpensesTable {
     private static final String TABLE = "item";
     private static final String COL_NAME = "name";
     private static final String COL_COST = "cost";
     private static final String COL_DESCRIPTION = "description";
     private static final String COL_TIMESTAMP = "timestamp";
 
-    private SQLiteOpenHelper sqlHelper;
+    private final SQLiteOpenHelper sqlHelper;
 
-    public ItemTable(SQLiteOpenHelper sqLiteOpenHelper) {
+    ExpensesTable(SQLiteOpenHelper sqLiteOpenHelper) {
         this.sqlHelper = sqLiteOpenHelper;
     }
 
-    public void update(List<Expense> items) {
+    void update(List<Expense> items) {
         SQLiteDatabase db = sqlHelper.getWritableDatabase();
         db.delete(TABLE, null, null);
         bulkInsert(db, items);
@@ -36,12 +36,6 @@ public class ItemTable {
         }
     }
 
-    // TODO: Remove. Ineffective?
-    public void add(Expense item) {
-        SQLiteDatabase db = sqlHelper.getWritableDatabase();
-        insert(db, item);
-    }
-
     private void insert(SQLiteDatabase db, Expense item) {
         ContentValues cv = new ContentValues();
         cv.put(COL_NAME, item.name);
@@ -51,7 +45,7 @@ public class ItemTable {
     }
 
     @NonNull
-    public List<Expense> getItems() {
+    List<Expense> getItems() {
         SQLiteDatabase db = sqlHelper.getReadableDatabase();
         String[] projection = {COL_NAME, COL_COST};
         List<Expense> items = new ArrayList<>();
@@ -67,7 +61,7 @@ public class ItemTable {
         return items;
     }
 
-    public void recreate(SQLiteDatabase db) {
+    void recreate(SQLiteDatabase db) {
         db.execSQL("drop table if exists " + TABLE);
         db.execSQL("create table " + TABLE + " ("
                 + COL_NAME + " TEXT PRIMARY KEY,"

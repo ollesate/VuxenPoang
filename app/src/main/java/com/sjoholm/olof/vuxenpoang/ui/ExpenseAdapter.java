@@ -15,7 +15,7 @@ import java.util.List;
 
 class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ItemViewHolder>
         implements View.OnLongClickListener{
-    private ClickListener clickListener;
+    private final ClickListener clickListener;
     private final List<Expense> expenses;
 
     interface ClickListener {
@@ -32,7 +32,7 @@ class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ItemViewHolder>
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.expense, parent, false);
+        View view = inflater.inflate(R.layout.expense_item, parent, false);
         return new ItemViewHolder(view);
     }
 
@@ -58,8 +58,8 @@ class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ItemViewHolder>
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewName;
-        TextView textViewCost;
+        final TextView textViewName;
+        final TextView textViewCost;
 
         ItemViewHolder(View view) {
             super(view);
