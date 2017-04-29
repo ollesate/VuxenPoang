@@ -1,0 +1,16 @@
+<resources>
+    <!-- UI elements -->
+    <string name="app_name">Vuxen poäng</string>
+    <string name="expenses_headline">Skapa en utgift</string>
+    <string name="expenses_subhead">Skapade utgifter</string>
+    <string name="expenses_create">Skapa ny</string>
+    <string name="dialog_edit_title">Redigera</string>
+
+    <!-- Wording -->
+    <string name="name">Namn</string>
+    <string name="expense">Kostnad</string>
+    <string name="cancel">Avbryt</string>
+    <string name="accept">OK</string>
+    <string name="delete">Ta bort</string>
+    <string name="edit">Redigera</string>
+</resources>
