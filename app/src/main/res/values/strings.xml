@@ -18,4 +18,9 @@
     <string name="balance_headline">Saldo: </string>
     <string name="balance_buy">Buy</string>
     <string name="balance_sell">Sell</string>
+    <!-- Sell -->
+    <string name="sell_total">Total: </string>
+    <string name="sell_button">Sell</string>
+    <string name="sell_cd_add_income">Add an expense</string>
+    <string name="balance_total_equity">Balance:</string>
 </resources>

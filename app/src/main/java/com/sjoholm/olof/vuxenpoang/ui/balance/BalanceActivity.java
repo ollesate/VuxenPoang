@@ -1,11 +1,13 @@
 package com.sjoholm.olof.vuxenpoang.ui.balance;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.sjoholm.olof.vuxenpoang.R;
+import com.sjoholm.olof.vuxenpoang.ui.SellActivity;
 
 public class BalanceActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,7 +27,7 @@ public class BalanceActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
             case R.id.btn_sell:
-
+                startActivity(new Intent(this, SellActivity.class));
                 break;
         }
     }

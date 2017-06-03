@@ -1,55 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingTop="@dimen/activity_top_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_bottom_margin"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <ListView
-            android:id="@+id/sell_items"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:layout_above="@+id/view_pager">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/receipt"
+            android:orientation="vertical"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:gravity="end">
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="32dp">
 
-            <TextView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:text="Total:" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/total_value"
-                tools:text="40"
+                <TextView
+                    android:layout_marginEnd="4dp"
+                    android:text="@string/balance_total_equity"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/receipt_balance"
+                    tools:text="1000"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/receipt_items"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/gray"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:text="@string/sell_total" />
+
+                <TextView
+                    android:id="@+id/receipt_total"
+                    tools:text="40"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <Button
+                tools:visibility="visible"
+                android:background="@color/light_gray"
+                android:textColor="@color/gray"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/sell_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-        <Button
-            android:layout_gravity="center_horizontal"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:text="Sell"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    </ScrollView>
 
-    </LinearLayout>
+    <ImageButton
+        android:contentDescription="@string/sell_cd_add_income"
+        android:id="@+id/add_income"
+        android:background="@android:drawable/ic_input_add"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_above="@id/view_pager"
+        android:layout_alignParentEnd="true"
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
+        android:layout_height="150dp" />
+
+    <TextView
+        tools:text="1/?"
+        android:id="@+id/pager_progress"
+        android:textAppearance="@android:style/TextAppearance.Small.Inverse"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignTop="@id/view_pager"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+</RelativeLayout>
