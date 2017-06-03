@@ -17,7 +17,8 @@ import com.sjoholm.olof.vuxenpoang.model.Expense;
 import com.sjoholm.olof.vuxenpoang.utils.NumberUtils;
 
 public class ExpenseDialog extends AppCompatDialogFragment implements View.OnClickListener{
-    private static final String ARG_INITIAL_VALUE = "ARG_INITIAL_VALUE";
+    private static final String ARG_INITIAL_COST = "ARG_INITIAL_COST";
+    private static final String ARG_INITIAL_NAME = "ARG_INITIAL_NAME";
     private static final String ARG_TITLE = "ARG_TITLE";
     private ExpenseDialogListener listener;
     private EditText editTextName;
@@ -28,11 +29,20 @@ public class ExpenseDialog extends AppCompatDialogFragment implements View.OnCli
         void onAccept(@NonNull Expense expense);
     }
 
-    public static ExpenseDialog newInstance(int title, @Nullable Expense expense) {
+    public static ExpenseDialog newInstance(int title, @NonNull String name, int cost) {
         Bundle args = new Bundle();
-        args.putSerializable(ARG_INITIAL_VALUE, expense);
+        args.putSerializable(ARG_INITIAL_NAME, name);
+        args.putSerializable(ARG_INITIAL_COST, cost);
         args.putInt(ARG_TITLE, title);
         ExpenseDialog fragment = new ExpenseDialog();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ExpenseDialog newInstance(int title) {
+        ExpenseDialog fragment = new ExpenseDialog();
+        Bundle args = new Bundle();
+        args.putInt(ARG_TITLE, title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,11 +61,10 @@ public class ExpenseDialog extends AppCompatDialogFragment implements View.OnCli
         editTextName = (EditText) view.findViewById(R.id.edt_name);
         editTextCost = (EditText) view.findViewById(R.id.edt_cost);
 
-        Expense expense = (Expense) getArguments().getSerializable(ARG_INITIAL_VALUE);
-        if (expense != null) {
-            editTextName.setText(expense.name);
-            editTextCost.setText(String.valueOf(expense.cost));
-        }
+        String name = getArguments().getString(ARG_INITIAL_NAME);
+        int cost = getArguments().getInt(ARG_INITIAL_COST);
+        editTextName.setText(name);
+        editTextCost.setText(String.valueOf(cost));
 
         int title = getArguments().getInt(ARG_TITLE);
         ((TextView) view.findViewById(R.id.title)).setText(title);
@@ -84,7 +93,7 @@ public class ExpenseDialog extends AppCompatDialogFragment implements View.OnCli
 
         if (name.length() == 0) {
             editTextName.setError("Name missing");
-        } else if (cost == -1) {
+        } else if (cost <= 0) {
             editTextCost.setError("Cost not valid");
         } else {
             listener.onAccept(new Expense(name, cost));

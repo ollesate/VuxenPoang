@@ -6,13 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
-import com.sjoholm.olof.vuxenpoang.model.Expense;
+import com.sjoholm.olof.vuxenpoang.model.Sale;
+import com.sjoholm.olof.vuxenpoang.model.Sale;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class ExpensesTable {
-    private static final String TABLE = "item";
+class SalesTable {
+    private static final String TABLE = "sale";
     private static final String COL_NAME = "name";
     private static final String COL_COST = "cost";
     private static final String COL_DESCRIPTION = "description";
@@ -20,23 +21,23 @@ class ExpensesTable {
 
     private final SQLiteOpenHelper sqlHelper;
 
-    ExpensesTable(SQLiteOpenHelper sqLiteOpenHelper) {
+    SalesTable(SQLiteOpenHelper sqLiteOpenHelper) {
         this.sqlHelper = sqLiteOpenHelper;
     }
 
-    void update(List<Expense> items) {
+    void update(List<Sale> items) {
         SQLiteDatabase db = sqlHelper.getWritableDatabase();
         db.delete(TABLE, null, null);
         bulkInsert(db, items);
     }
 
-    private void bulkInsert(SQLiteDatabase db, List<Expense> items) {
-        for (Expense item : items) {
+    private void bulkInsert(SQLiteDatabase db, List<Sale> items) {
+        for (Sale item : items) {
             insert(db, item);
         }
     }
 
-    private void insert(SQLiteDatabase db, Expense item) {
+    private void insert(SQLiteDatabase db, Sale item) {
         ContentValues cv = new ContentValues();
         cv.put(COL_NAME, item.name);
         cv.put(COL_COST, item.cost);
@@ -45,17 +46,17 @@ class ExpensesTable {
     }
 
     @NonNull
-    List<Expense> getItems() {
+    List<Sale> getItems() {
         SQLiteDatabase db = sqlHelper.getReadableDatabase();
         String[] projection = {COL_NAME, COL_COST};
-        List<Expense> items = new ArrayList<>();
+        List<Sale> items = new ArrayList<>();
         try (Cursor cursor = db.query(TABLE, projection, null, null, null, null, null)) {
             int colName = cursor.getColumnIndexOrThrow(COL_NAME);
             int colCost = cursor.getColumnIndexOrThrow(COL_COST);
             while (cursor.moveToNext()) {
                 String name = cursor.getString(colName);
                 int cost = cursor.getInt(colCost);
-                items.add(new Expense(name, cost));
+                items.add(new Sale(name, cost));
             }
         }
         return items;

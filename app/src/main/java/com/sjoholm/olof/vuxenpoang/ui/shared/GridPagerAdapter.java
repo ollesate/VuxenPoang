@@ -1,4 +1,4 @@
-package com.sjoholm.olof.vuxenpoang.ui;
+package com.sjoholm.olof.vuxenpoang.ui.shared;
 
 import android.content.Context;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,20 +14,16 @@ import android.widget.TextView;
 import com.sjoholm.olof.vuxenpoang.R;
 import com.sjoholm.olof.vuxenpoang.model.Expense;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-class ExpenseGridPagerAdapter extends PagerAdapter implements View.OnClickListener {
-    private final List<Expense> list;
-    private OnClickListener listener;
+public abstract class GridPagerAdapter<T> extends PagerAdapter
+        implements View.OnClickListener {
+    private final List<T> list;
 
-    public interface OnClickListener {
-
-        void onClick(Expense expense);
-    }
-
-    public ExpenseGridPagerAdapter(List<Expense> list, OnClickListener onClickListener) {
+    public GridPagerAdapter(List<T> list) {
         this.list = list;
-        listener = onClickListener;
     }
 
     @Override
@@ -50,12 +46,14 @@ class ExpenseGridPagerAdapter extends PagerAdapter implements View.OnClickListen
         gridLayout.setRowCount(2);
         container.addView(gridLayout);
 
-        Expense[] expenses = getExpensesInGrid(position);
+        List<T> expenses = getExpensesInGrid(position);
         for (int i = 0; i < 4; i ++) {
-            Expense expense = i < expenses.length ? expenses[i] : null;
+            T expense = i < expenses.size() ? expenses.get(i) : null;
             final View view;
             if (expense != null) {
                 view = createChild(inflater, gridLayout);
+                view.setTag(expense);
+                view.setOnClickListener(this);
                 populateChild(view, expense);
             } else {
                 view = createChild(inflater, gridLayout);
@@ -75,17 +73,13 @@ class ExpenseGridPagerAdapter extends PagerAdapter implements View.OnClickListen
         return view;
     }
 
-    private void populateChild(View view, Expense expense) {
-        ((TextView) view.findViewById(R.id.title)).setText(expense.name);
-        ((TextView) view.findViewById(R.id.cost)).setText(String.valueOf(expense.cost));
-        view.setOnClickListener(this);
-        view.setTag(expense);
-    }
+    public abstract void onItemClicked(T item);
+
+    public abstract void populateChild(View view, T item);
 
     @Override
     public void onClick(View v) {
-        Expense expense = (Expense) v.getTag();
-        listener.onClick(expense);
+        onItemClicked((T) v.getTag());
     }
 
     @Override
@@ -98,12 +92,12 @@ class ExpenseGridPagerAdapter extends PagerAdapter implements View.OnClickListen
         return view == object;
     }
 
-    private Expense[] getExpensesInGrid(int position) {
+    private List<T> getExpensesInGrid(int position) {
         int start = position * 4;
         int end = Math.min(start + 4, list.size());
-        Expense[] expenses = new Expense[end - start];
+        List<T> expenses = new ArrayList<>(end - start);
         for (int i = start; i < end; i++) {
-            expenses[i - start] = list.get(i);
+            expenses.add(list.get(i));
         }
         return expenses;
     }

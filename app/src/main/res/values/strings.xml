@@ -1,26 +1,41 @@
 <resources>
     <string name="app_name">Vuxen poäng</string>
     <!-- Dialog -->
-    <string name="dialog_cancel">Avbryt</string>
+    <string name="dialog_cancel">Cancel</string>
     <string name="dialog_accept">OK</string>
-    <string name="dialog_delete">Ta bort</string>
-    <string name="dialog_edit">Redigera</string>
+    <string name="dialog_delete">Delete</string>
+    <string name="dialog_edit">Edit</string>
     <!-- Expense -->
-    <string name="expenses_headline">Skapa en utgift</string>
-    <string name="expenses_subhead">Skapade utgifter</string>
-    <string name="expenses_create">Skapa ny</string>
+    <string name="expense_headline">Create an expense</string>
+    <string name="expense_subhead">Created expenses</string>
+    <string name="expense_create">Create new</string>
 
-    <string name="expense_dialog_name">Namn</string>
-    <string name="expense_dialog_cost">Kostnad</string>
-    <string name="expense_dialog_edit">Redigera</string>
-    <string name="expense_dialog_create">Skapa</string>
+    <string name="expense_dialog_name">Name</string>
+    <string name="expense_dialog_cost">Cost</string>
+    <string name="expense_dialog_edit">Edit</string>
+    <string name="expense_dialog_create">Create</string>
+    <!-- Income -->
+    <string name="incomes_headline">Create an expense</string>
+    <string name="incomes_subhead">Created expenses</string>
+    <string name="incomes_create">Create new</string>
+
+    <string name="income_dialog_name">Name</string>
+    <string name="income_dialog_cost">Cost</string>
+    <string name="income_dialog_edit">Edit</string>
+    <string name="income_dialog_create">Create</string>
     <!-- Balance -->
     <string name="balance_headline">Saldo: </string>
     <string name="balance_buy">Buy</string>
     <string name="balance_sell">Sell</string>
+    <!-- Receipt -->
+    <string name="receipt_balance">Balance:</string>
+    <string name="receipt_total">Total: </string>
     <!-- Sell -->
-    <string name="sell_total">Total: </string>
     <string name="sell_button">Sell</string>
     <string name="sell_cd_add_income">Add an expense</string>
-    <string name="balance_total_equity">Balance:</string>
+    <string name="sell_toast_sold">Sold items for %d</string>
+    <!-- Buy -->
+    <string name="buy_button">Buy</string>
+    <string name="buy_cd_add_income">Add an income</string>
+    <string name="buy_toast_sold">Bought items for %d</string>
 </resources>

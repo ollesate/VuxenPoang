@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_bottom_margin"
-    tools:context="com.sjoholm.olof.vuxenpoang.ui.expense.ExpenseActivity">
+    tools:context="com.sjoholm.olof.vuxenpoang.ui.purchase.PurchaseItemsActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -18,7 +18,7 @@
 
         <TextView
             android:layout_marginBottom="32dp"
-            android:text="@string/expenses_headline"
+            android:text="@string/expense_headline"
             android:gravity="center_horizontal"
             android:textAppearance="@android:style/TextAppearance.Material.Headline"
             android:textStyle="bold"
@@ -29,7 +29,7 @@
             android:textAppearance="@android:style/TextAppearance.Material.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/expenses_subhead"/>
+            android:text="@string/expense_subhead"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -41,7 +41,7 @@
 
     <Button
         android:id="@+id/btn_create"
-        android:text="@string/expenses_create"
+        android:text="@string/expense_create"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

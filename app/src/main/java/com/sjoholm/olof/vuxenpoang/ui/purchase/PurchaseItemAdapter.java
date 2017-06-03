@@ -1,4 +1,4 @@
-package com.sjoholm.olof.vuxenpoang.ui.expense;
+package com.sjoholm.olof.vuxenpoang.ui.purchase;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,23 +9,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sjoholm.olof.vuxenpoang.R;
-import com.sjoholm.olof.vuxenpoang.model.Expense;
+import com.sjoholm.olof.vuxenpoang.model.Purchase;
 
 import java.util.List;
 
-class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ItemViewHolder>
+public class PurchaseItemAdapter extends RecyclerView.Adapter<PurchaseItemAdapter.ItemViewHolder>
         implements View.OnLongClickListener{
     private final ClickListener clickListener;
-    private final List<Expense> expenses;
+    private final List<Purchase> purchases;
 
-    interface ClickListener {
+    public interface ClickListener {
 
-        void onItemLongClick(Expense expense);
+        void onItemLongClick(Purchase purchase);
     }
 
-    ExpenseAdapter(@NonNull ClickListener clickListener, @NonNull List<Expense> expenses) {
+    public PurchaseItemAdapter(@NonNull ClickListener clickListener,
+                               @NonNull List<Purchase> purchases) {
         this.clickListener = clickListener;
-        this.expenses = expenses;
+        this.purchases = purchases;
     }
 
     @Override
@@ -38,7 +39,7 @@ class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ItemViewHolder>
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        Expense expense = expenses.get(position);
+        Purchase expense = purchases.get(position);
         holder.textViewName.setText(expense.name);
         holder.textViewCost.setText(String.valueOf(expense.cost));
         holder.itemView.setTag(expense);
@@ -47,14 +48,14 @@ class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ItemViewHolder>
 
     @Override
     public boolean onLongClick(View view) {
-        Expense expense = (Expense) view.getTag();
+        Purchase expense = (Purchase) view.getTag();
         clickListener.onItemLongClick(expense);
         return true;
     }
 
     @Override
     public int getItemCount() {
-        return expenses.size();
+        return purchases.size();
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {

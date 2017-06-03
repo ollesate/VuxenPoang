@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.sjoholm.olof.vuxenpoang.R;
-import com.sjoholm.olof.vuxenpoang.ui.SellActivity;
+import com.sjoholm.olof.vuxenpoang.ui.purchase.BuyActivity;
+import com.sjoholm.olof.vuxenpoang.ui.sale.SellActivity;
 
 public class BalanceActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,7 +25,7 @@ public class BalanceActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_buy:
-
+                startActivity(new Intent(this, BuyActivity.class));
                 break;
             case R.id.btn_sell:
                 startActivity(new Intent(this, SellActivity.class));

@@ -1,4 +1,4 @@
-package com.sjoholm.olof.vuxenpoang.ui.expense;
+package com.sjoholm.olof.vuxenpoang.ui.sale;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,11 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import com.sjoholm.olof.vuxenpoang.Injection;
 import com.sjoholm.olof.vuxenpoang.R;
 import com.sjoholm.olof.vuxenpoang.model.Expense;
+import com.sjoholm.olof.vuxenpoang.model.Sale;
+import com.sjoholm.olof.vuxenpoang.ui.expense.CreateExpenseDialog;
+import com.sjoholm.olof.vuxenpoang.ui.expense.EditExpenseDialog;
 
 import java.util.List;
 
-public class ExpenseActivity extends AppCompatActivity implements ExpenseAdapter.ClickListener {
-    private List<Expense> expenses;
+public class SalesItemsActivity extends AppCompatActivity implements SaleItemAdapter.ClickListener {
+    private List<Sale> sales;
     private RecyclerView recyclerView;
 
     @Override
@@ -31,58 +34,60 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseAdapter
         });
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        expenses = Injection.getRepository(this).fetchExpenses();
-        ExpenseAdapter expenseAdapter = new ExpenseAdapter(this, expenses);
+        sales = Injection.getRepository(this).fetchSales();
+        SaleItemAdapter adapter = new SaleItemAdapter(this, sales);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(expenseAdapter);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Injection.getRepository(this).syncExpenses(expenses);
+        Injection.getRepository(this).syncSales(sales);
     }
 
     private void showCreateDialog() {
         CreateExpenseDialog createExpenseDialog = new CreateExpenseDialog(
                 new CreateExpenseDialog.DialogListener() {
-            @Override
-            public void onExpenseCreated(@NonNull Expense expense) {
-                expenses.add(expense);
-                recyclerView.getAdapter().notifyDataSetChanged();
-            }
-        });
+                    @Override
+                    public void onExpenseCreated(@NonNull Expense expense) {
+                        sales.add(new Sale(expense.name, expense.cost));
+                        recyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                });
         createExpenseDialog.show(getSupportFragmentManager());
     }
 
-    private void showEditDialog(final Expense edit) {
-        EditExpenseDialog editDialog = new EditExpenseDialog(edit,
+    private void showEditDialog(final Sale edit) {
+        String name = edit.name;
+        int cost = edit.cost;
+        EditExpenseDialog editDialog = new EditExpenseDialog(name, cost,
                 new EditExpenseDialog.DialogListener() {
             @Override
             public void onExpenseEdited(@NonNull String name, int cost) {
                 edit.name = name;
                 edit.cost = cost;
-                recyclerView.getAdapter().notifyItemChanged(expenses.indexOf(edit));
+                recyclerView.getAdapter().notifyItemChanged(sales.indexOf(edit));
             }
         });
         editDialog.show(getSupportFragmentManager());
     }
 
     @Override
-    public void onItemLongClick(final Expense expense) {
+    public void onItemLongClick(final Sale sale) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
-        builder.setTitle(expense.name);
+        builder.setTitle(sale.name);
         DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case DialogInterface.BUTTON_NEGATIVE:
-                        expenses.remove(expense);
+                        sales.remove(sale);
                         recyclerView.getAdapter().notifyDataSetChanged();
                         break;
                     case DialogInterface.BUTTON_POSITIVE:
-                        showEditDialog(expense);
+                        showEditDialog(sale);
                         break;
                 }
                 dialogInterface.dismiss();

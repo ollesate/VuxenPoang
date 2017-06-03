@@ -15,9 +15,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.SellActivity" />
+        <activity android:name=".ui.sale.SellActivity" />
 
-        <activity android:name=".ui.expense.ExpenseActivity" />
+        <activity android:name=".ui.sale.SalesItemsActivity" />
+
+        <activity android:name=".ui.purchase.BuyActivity" />
+
+        <activity android:name=".ui.purchase.PurchaseItemsActivity" />
 
     </application>
 

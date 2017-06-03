@@ -6,22 +6,22 @@ import android.support.v4.app.FragmentManager;
 import com.sjoholm.olof.vuxenpoang.R;
 import com.sjoholm.olof.vuxenpoang.model.Expense;
 
-class EditExpenseDialog implements ExpenseDialog.ExpenseDialogListener {
+public class EditExpenseDialog implements ExpenseDialog.ExpenseDialogListener {
     private final ExpenseDialog expenseDialog;
     private final DialogListener listener;
 
-    interface DialogListener {
+    public interface DialogListener {
 
         void onExpenseEdited(@NonNull String name, int cost);
     }
 
-    EditExpenseDialog(@NonNull Expense expense, @NonNull DialogListener listener) {
+    public EditExpenseDialog(@NonNull String name, int cost, @NonNull DialogListener listener) {
         this.listener = listener;
-        expenseDialog = ExpenseDialog.newInstance(R.string.expense_dialog_edit, expense);
+        expenseDialog = ExpenseDialog.newInstance(R.string.expense_dialog_edit, name, cost);
         expenseDialog.setOnAcceptListener(this);
     }
 
-    void show(@NonNull FragmentManager fragmentManager) {
+    public void show(@NonNull FragmentManager fragmentManager) {
         expenseDialog.show(fragmentManager, null);
     }
 

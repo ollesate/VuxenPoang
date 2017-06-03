@@ -7,27 +7,46 @@ import android.support.annotation.NonNull;
 
 class Database extends SQLiteOpenHelper {
     private static final String DATABASE = "database.db";
-    private static final int VERSION = 2;
+    private static final int VERSION = 5;
 
-    private final ExpensesTable itemTable;
+    private final SalesTable salesTable;
+
+    private final KeyValueTable keyValueTable;
+    private final PurchaseTable purchaseTable;
 
     Database(Context context) {
         super(context, DATABASE, null, VERSION);
-        itemTable = new ExpensesTable(this);
+        salesTable = new SalesTable(this);
+        purchaseTable = new PurchaseTable(this);
+        keyValueTable = new KeyValueTable(this);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        itemTable.recreate(db);
+        salesTable.recreate(db);
+        purchaseTable.recreate(db);
+        keyValueTable.recreate(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        itemTable.recreate(db);
+        salesTable.recreate(db);
+        purchaseTable.recreate(db);
+        keyValueTable.recreate(db);
     }
 
     @NonNull
-    ExpensesTable getItemTable() {
-        return itemTable;
+    SalesTable getSalesTable() {
+        return salesTable;
+    }
+
+    @NonNull
+    public PurchaseTable getPurchaseTable() {
+        return purchaseTable;
+    }
+
+    @NonNull
+    public KeyValueTable getKeyValueTable() {
+        return keyValueTable;
     }
 }
