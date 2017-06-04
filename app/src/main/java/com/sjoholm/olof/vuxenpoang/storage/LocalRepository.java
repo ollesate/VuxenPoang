@@ -21,6 +21,11 @@ public class LocalRepository implements Repository {
     }
 
     @Override
+    public Sale createSale(String name, int cost) {
+        return salesTable.createSale(name, cost);
+    }
+
+    @Override
     public void syncSales(@NonNull List<Sale> expenses) {
         salesTable.update(expenses);
     }
@@ -28,6 +33,11 @@ public class LocalRepository implements Repository {
     @Override
     public List<Sale> fetchSales() {
         return salesTable.getItems();
+    }
+
+    @Override
+    public Purchase createPurchase(String name, int cost) {
+        return purchaseTable.createPurchase(name, cost);
     }
 
     @Override

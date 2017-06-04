@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.sjoholm.olof.vuxenpoang.Injection;
 import com.sjoholm.olof.vuxenpoang.R;
 import com.sjoholm.olof.vuxenpoang.model.Expense;
 import com.sjoholm.olof.vuxenpoang.utils.NumberUtils;

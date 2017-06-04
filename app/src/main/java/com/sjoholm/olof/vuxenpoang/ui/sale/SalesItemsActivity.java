@@ -7,12 +7,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.sjoholm.olof.vuxenpoang.Injection;
 import com.sjoholm.olof.vuxenpoang.R;
-import com.sjoholm.olof.vuxenpoang.model.Expense;
 import com.sjoholm.olof.vuxenpoang.model.Sale;
-import com.sjoholm.olof.vuxenpoang.ui.expense.CreateExpenseDialog;
 import com.sjoholm.olof.vuxenpoang.ui.expense.EditExpenseDialog;
 
 import java.util.List;
@@ -47,11 +46,11 @@ public class SalesItemsActivity extends AppCompatActivity implements SaleItemAda
     }
 
     private void showCreateDialog() {
-        CreateExpenseDialog createExpenseDialog = new CreateExpenseDialog(
-                new CreateExpenseDialog.DialogListener() {
+        CreateSaleDialog createExpenseDialog = new CreateSaleDialog(this,
+                new CreateSaleDialog.DialogListener() {
                     @Override
-                    public void onExpenseCreated(@NonNull Expense expense) {
-                        sales.add(new Sale(expense.name, expense.cost));
+                    public void onSaleCreated(@NonNull Sale sale) {
+                        sales.add(sale);
                         recyclerView.getAdapter().notifyDataSetChanged();
                     }
                 });

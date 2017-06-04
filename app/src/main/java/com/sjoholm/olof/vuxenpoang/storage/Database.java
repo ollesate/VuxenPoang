@@ -4,10 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 class Database extends SQLiteOpenHelper {
     private static final String DATABASE = "database.db";
-    private static final int VERSION = 5;
+    private static final int VERSION = 9;
 
     private final SalesTable salesTable;
 

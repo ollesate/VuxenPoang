@@ -9,9 +9,13 @@ import java.util.List;
 
 public interface Repository {
 
+    Sale createSale(String name, int cost);
+
     void syncSales(@NonNull List<Sale> sales);
 
     List<Sale> fetchSales();
+
+    Purchase createPurchase(String name, int cost);
 
     void syncPurchases(@NonNull List<Purchase> purchases);
 

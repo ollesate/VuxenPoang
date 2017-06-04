@@ -47,11 +47,11 @@ public class PurchaseItemsActivity extends AppCompatActivity implements Purchase
     }
 
     private void showCreateDialog() {
-        CreateExpenseDialog createExpenseDialog = new CreateExpenseDialog(
-                new CreateExpenseDialog.DialogListener() {
+        CreatePurchaseDialog createExpenseDialog = new CreatePurchaseDialog(this,
+                new CreatePurchaseDialog.DialogListener() {
                     @Override
-                    public void onExpenseCreated(@NonNull Expense expense) {
-                        purchases.add(new Purchase(expense.name, expense.cost));
+                    public void onSaleCreated(@NonNull Purchase purchase) {
+                        purchases.add(purchase);
                         recyclerView.getAdapter().notifyDataSetChanged();
                     }
                 });
